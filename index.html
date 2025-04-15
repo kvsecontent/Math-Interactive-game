@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Numbers Adventure</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #FFC107;
+            --accent-color: #2196F3;
+            --danger-color: #F44336;
+            --correct-color: #4CAF50;
+            --incorrect-color: #F44336;
+            --background-color: #f5f5f5;
+            --card-color: #fff;
+            --text-color: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--card-color);
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .header {
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .content {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Login Form Styles */
+        .login-form {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .form-control {
+            padding: 12px 15px;
+            font-size: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background-color: #1976D2;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Game Menu Styles */
+        .game-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .game-card {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 180px;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: var(--accent-color);
+        }
+
+        .game-card:nth-child(1)::before {
+            background-color: #FF5722;
+        }
+
+        .game-card:nth-child(2)::before {
+            background-color: #2196F3;
+        }
+
+        .game-card:nth-child(3)::before {
+            background-color: #4CAF50;
+        }
+
+        .game-card:nth-child(4)::before {
+            background-color: #9C27B0;
+        }
+
+        .game-card:nth-child(5)::before {
+            background-color: #FFC107;
+        }
+
+        .game-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .game-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .game-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        /* Game Styles */
+        .game-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-info {
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .game-description {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .question-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .option {
+            background-color: #f9f9f9;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option:hover {
+            background-color: #efefef;
+            transform: scale(1.02);
+        }
+
+        .option.selected {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .option.correct {
+            background-color: var(--correct-color);
+            color: white;
+            border-color: var(--correct-color);
+        }
+
+        .option.incorrect {
+            background-color: var(--incorrect-color);
+            color: white;
+            border-color: var(--incorrect-color);
+        }
+
+        .user-info {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .score-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .score-value {
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .timer {
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .feedback.correct {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--correct-color);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--incorrect-color);
+            display: block;
+        }
+
+        /* Result Styles */
+        .result-container {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .result-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .result-score {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .result-message {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 50%;
+            animation: confetti-fall 5s ease-in-out infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .game-menu {
+                grid-template-columns: 1fr;
+            }
+
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+
+            .game-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .score-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .animated {
+            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .place-value-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .place-value-box {
+            background-color: #f9f9f9;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .place-value-title {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .place-value-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .number-box {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background-color: #f5f5f5;
+            padding: 20px 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            color: var(--accent-color);
+        }
+
+        .order-container {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .order-item {
+            background-color: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: move;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .order-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .order-item.selected {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        .drop-container {
+            width: 100%;
+            min-height: 60px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+
+        .drop-container.active {
+            border-color: var(--accent-color);
+            background-color: rgba(33, 150, 243, 0.1);
+        }
+
+        /* Animation for number changes */
+        @keyframes numberChange {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .animate-number {
+            animation: numberChange 0.5s ease;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Math Numbers Adventure</h1>
+            <p>Learn numbers through fun challenges!</p>
+        </div>
+        
+        <!-- Login Screen -->
+        <div id="login-screen" class="content animated">
+            <h2>Welcome to Math Numbers Adventure!</h2>
+            <p>Enter your details to start playing:</p>
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="student-name">Your Name:</label>
+                    <input type="text" id="student-name" class="form-control" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-class">Your Class:</label>
+                    <input type="text" id="student-class" class="form-control" placeholder="Enter your class" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Start Adventure</button>
+            </form>
+        </div>
+        
+        <!-- Game Menu Screen -->
+        <div id="game-menu-screen" class="content hidden">
+            <div class="user-info">
+                <span id="player-info">Player: John | Class: 3A</span>
+            </div>
+            <h2>Choose a Challenge</h2>
+            <p>Select a math game to play:</p>
+            <div class="game-menu">
+                <div class="game-card" data-game="number-name">
+                    <div class="game-icon">📝</div>
+                    <h3>Number Names</h3>
+                    <p>Match numbers with their names</p>
+                </div>
+                <div class="game-card" data-game="compare-numbers">
+                    <div class="game-icon">⚖️</div>
+                    <h3>Compare Numbers</h3>
+                    <p>Use >, < or = to compare numbers</p>
+                </div>
+                <div class="game-card" data-game="before-after">
+                    <div class="game-icon">🔄</div>
+                    <h3>Before & After</h3>
+                    <p>Find numbers before and after</p>
+                </div>
+                <div class="game-card" data-game="order-numbers">
+                    <div class="game-icon">🔢</div>
+                    <h3>Number Order</h3>
+                    <p>Arrange numbers in order</p>
+                </div>
+                <div class="game-card" data-game="place-value">
+                    <div class="game-icon">🔍</div>
+                    <h3>Place Value</h3>
+                    <p>Identify place values in 2-digit numbers</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div id="game-screen" class="content hidden">
+            <div class="game-header">
+                <div class="score-container">
+                    <div class="score-item">
+                        <span class="score-label">Score:</span>
+                        <span id="score" class="score-value">0</span>
+                    </div>
+                    <div class="score-item">
+                        <span class="score-label">Question:</span>
+                        <span id="question-counter" class="score-value">1/10</span>
+                    </div>
+                </div>
+                <div class="timer">
+                    <span>Time:</span>
+                    <span id="timer">00:00</span>
+                </div>
+            </div>
+            
+            <div class="game-info">
+                <h2 id="game-title" class="game-title">Number Names</h2>
+                <p id="game-description" class="game-description">Match the number with its correct name.</p>
+            </div>
+            
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            
+            <div class="game-container">
+                <!-- Number Name Game -->
+                <div id="number-name-game" class="question-container hidden">
+                    <div class="number-box" id="current-number">42</div>
+                    <div class="question">What is the correct name for this number?</div>
+                    <div class="options-container" id="name-options">
+                        <!-- Options will be added dynamically -->
+                    </div>
+                </div>
+                
+                <!-- Compare Numbers Game -->
+                <div id="compare-numbers-game" class="question-container hidden">
+                    <div class="question">Choose the correct symbol to compare these numbers:</div>
+                    <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 20px; font-size: 2rem;">
+                        <span id="number1">25</span>
+                        <div id="comparison-options" style="display: flex; gap: 10px;">
+                            <div class="option" data-value="<">&lt;</div>
+                            <div class="option" data-value="=">=</div>
+                            <div class="option" data-value=">">&gt;</div>
+                        </div>
+                        <span id="number2">42</span>
+                    </div>
+                </div>
+                
+                <!-- Before & After Game -->
+                <div id="before-after-game" class="question-container hidden">
+                    <div class="question" id="before-after-question">What number comes right after 42?</div>
+                    <div class="options-container" id="before-after-options">
+                        <!-- Options will be added dynamically -->
+                    </div>
+                </div>
+                
+                <!-- Order Numbers Game -->
+                <div id="order-numbers-game" class="question-container hidden">
+                    <div class="question" id="order-question">Arrange these numbers in ascending order (smallest to largest):</div>
+                    <div class="order-container" id="numbers-to-order">
+                        <!-- Numbers will be added dynamically -->
+                    </div>
+                    <div class="drop-container" id="order-drop-zone">
+                        <!-- Ordered numbers will be placed here -->
+                    </div>
+                </div>
+                
+                <!-- Place Value Game -->
+                <div id="place-value-game" class="question-container hidden">
+                    <div class="number-box" id="place-value-number">42</div>
+                    <div class="question">What are the place values of this number?</div>
+                    <div class="place-value-container">
+                        <div class="place-value-box">
+                            <div class="place-value-title">Tens Place</div>
+                            <div class="options-container" id="tens-place-options">
+                                <!-- Options will be added dynamically -->
+                            </div>
+                        </div>
+                        <div class="place-value-box">
+                            <div class="place-value-title">Ones Place</div>
+                            <div class="options-container" id="ones-place-options">
+                                <!-- Options will be added dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="feedback" class="feedback"></div>
+                
+                <div class="controls">
+                    <button id="check-btn" class="btn btn-primary">Check Answer</button>
+                    <button id="next-btn" class="btn btn-secondary hidden">Next Question</button>
+                    <button id="back-to-menu-btn" class="btn btn-danger">Back to Menu</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Results Screen -->
+        <div id="results-screen" class="content hidden">
+            <div class="result-container">
+                <h2 class="result-title">Challenge Complete!</h2>
+                <div class="result-score">0</div>
+                <div class="result-message">Great job! You're becoming a math master!</div>
+                <div class="controls">
+                    <button id="play-again-btn" class="btn btn-primary">Play Again</button>
+                    <button id="menu-btn" class="btn btn-secondary">Back to Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        const gameState = {
+            studentName: '',
+            studentClass: '',
+            currentGame: null,
+            score: 0,
+            questionIndex: 0,
+            totalQuestions: 10,
+            questions: [],
+            currentAnswer: null,
+            timerInterval: null,
+            timeElapsed: 0,
+            draggedItem: null
+        };
+
+        // DOM Elements
+        const loginScreen = document.getElementById('login-screen');
+        const gameMenuScreen = document.getElementById('game-menu-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        
+        const loginForm = document.getElementById('login-form');
+        const playerInfo = document.getElementById('player-info');
+        const gameCards = document.querySelectorAll('.game-card');
+        
+        const scoreElement = document.getElementById('score');
+        const questionCounter = document.getElementById('question-counter');
+        const timerElement = document.getElementById('timer');
+        const gameTitle = document.getElementById('game-title');
+        const gameDescription = document.getElementById('game-description');
+        const progressBar = document.getElementById('progress-bar');
+        
+        const numberNameGame = document.getElementById('number-name-game');
+        const compareNumbersGame = document.getElementById('compare-numbers-game');
+        const beforeAfterGame = document.getElementById('before-after-game');
+        const orderNumbersGame = document.getElementById('order-numbers-game');
+        const placeValueGame = document.getElementById('place-value-game');
+        
+        const currentNumber = document.getElementById('current-number');
+        const nameOptions = document.getElementById('name-options');
+        
+        const number1 = document.getElementById('number1');
+        const number2 = document.getElementById('number2');
+        const comparisonOptions = document.getElementById('comparison-options');
+        
+        const beforeAfterQuestion = document.getElementById('before-after-question');
+        const beforeAfterOptions = document.getElementById('before-after-options');
+        
+        const orderQuestion = document.getElementById('order-question');
+        const numbersToOrder = document.getElementById('numbers-to-order');
+        const orderDropZone = document.getElementById('order-drop-zone');
+        
+        const placeValueNumber = document.getElementById('place-value-number');
+        const tensPlaceOptions = document.getElementById('tens-place-options');
+        const onesPlaceOptions = document.getElementById('ones-place-options');
+        
+        const feedbackElement = document.getElementById('feedback');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const backToMenuBtn = document.getElementById('back-to-menu-btn');
+        
+        const resultScore = document.querySelector('.result-score');
+        const resultMessage = document.querySelector('.result-message');
+        const playAgainBtn = document.getElementById('play-again-btn');
+        const menuBtn = document.getElementById('menu-btn');
+
+        // Game Data
+        const numberNames = {
+            1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five',
+            6: 'six', 7: 'seven', 8: 'eight', 9: 'nine', 10: 'ten',
+            11: 'eleven', 12: 'twelve', 13: 'thirteen', 14: 'fourteen', 15: 'fifteen',
+            16: 'sixteen', 17: 'seventeen', 18: 'eighteen', 19: 'nineteen', 20: 'twenty',
+            30: 'thirty', 40: 'forty', 50: 'fifty', 60: 'sixty', 70: 'seventy',
+            80: 'eighty', 90: 'ninety'
+        };
+
+        // Helper Functions
+        function showScreen(screen) {
+            loginScreen.classList.add('hidden');
+            gameMenuScreen.classList.add('hidden');
+            gameScreen.classList.add('hidden');
+            resultsScreen.classList.add('hidden');
+            
+            screen.classList.remove('hidden');
+            screen.classList.add('animated');
+        }
+        
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${mins}:${secs}`;
+        }
+        
+        function startTimer() {
+            clearInterval(gameState.timerInterval);
+            gameState.timeElapsed = 0;
+            timerElement.textContent = formatTime(gameState.timeElapsed);
+            
+            gameState.timerInterval = setInterval(() => {
+                gameState.timeElapsed++;
+                timerElement.textContent = formatTime(gameState.timeElapsed);
+            }, 1000);
+        }
+        
+        function stopTimer() {
+            clearInterval(gameState.timerInterval);
+        }
+        
+        function getNumberName(num) {
+            if (num <= 20) {
+                return numberNames[num];
+            } else {
+                const tens = Math.floor(num / 10) * 10;
+                const ones = num % 10;
+                
+                if (ones === 0) {
+                    return numberNames[tens];
+                } else {
+                    return `${numberNames[tens]}-${numberNames[ones]}`;
+                }
+            }
+        }
+        
+        function getRandomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        
+        function getRandomNumbers(min, max, count) {
+            const numbers = [];
+            while (numbers.length < count) {
+                const num = getRandomNumber(min, max);
+                if (!numbers.includes(num)) {
+                    numbers.push(num);
+                }
+            }
+            return numbers;
+        }
+        
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        function updateProgressBar() {
+            const progress = (gameState.questionIndex / gameState.totalQuestions) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        function showFeedback(isCorrect, message) {
+            feedbackElement.textContent = message || (isCorrect ? 'Correct!' : 'Incorrect!');
+            feedbackElement.className = 'feedback';
+            feedbackElement.classList.add(isCorrect ? 'correct' : 'incorrect');
+            
+            checkBtn.classList.add('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+        
+        function hideAllGames() {
+            numberNameGame.classList.add('hidden');
+            compareNumbersGame.classList.add('hidden');
+            beforeAfterGame.classList.add('hidden');
+            orderNumbersGame.classList.add('hidden');
+            placeValueGame.classList.add('hidden');
+        }
+        
+        function createConfetti() {
+            const confettiContainer = document.createElement('div');
+            confettiContainer.style.position = 'absolute';
+            confettiContainer.style.top = '0';
+            confettiContainer.style.left = '0';
+            confettiContainer.style.width = '100%';
+            confettiContainer.style.height = '100%';
+            confettiContainer.style.overflow = 'hidden';
+            confettiContainer.style.pointerEvents = 'none';
+            
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 80%, 60%)`;
+                confetti.style.animationDelay = `${Math.random() * 5}s`;
+                confettiContainer.appendChild(confetti);
+            }
+            
+            resultsScreen.appendChild(confettiContainer);
+            
+            setTimeout(() => {
+                confettiContainer.remove();
+            }, 5000);
+        }
+        
+        // Game Generators
+        function generateNumberNameQuestions() {
+            const questions = [];
+            
+            for (let i = 0; i < gameState.totalQuestions; i++) {
+                const number = getRandomNumber(1, 99);
+                const correctName = getNumberName(number);
+                
+                // Generate 3 incorrect options
+                const otherOptions = [];
+                while (otherOptions.length < 3) {
+                    const wrongNumber = getRandomNumber(1, 99);
+                    if (wrongNumber !== number) {
+                        const wrongName = getNumberName(wrongNumber);
+                        if (!otherOptions.includes(wrongName)) {
+                            otherOptions.push(wrongName);
+                        }
+                    }
+                }
+                
+                const options = shuffle([correctName, ...otherOptions]);
+                
+                questions.push({
+                    number,
+                    correctAnswer: correctName,
+                    options
+                });
+            }
+            
+            return questions;
+        }
+        
+        function generateCompareNumbersQuestions() {
+            const questions = [];
+            
+            for (let i = 0; i < gameState.totalQuestions; i++) {
+                const num1 = getRandomNumber(1, 99);
+                let num2;
+                let correctAnswer;
+                
+                // Randomly decide the relationship
+                const relationship = getRandomNumber(1, 3);
+                
+                if (relationship === 1) { // num1 < num2
+                    num2 = getRandomNumber(num1 + 1, 99);
+                    correctAnswer = '<';
+                } else if (relationship === 2) { // num1 = num2
+                    num2 = num1;
+                    correctAnswer = '=';
+                } else { // num1 > num2
+                    num2 = getRandomNumber(1, num1 - 1);
+                    correctAnswer = '>';
+                }
+                
+                questions.push({
+                    num1,
+                    num2,
+                    correctAnswer,
+                    options: ['<', '=', '>']
+                });
+            }
+            
+            return questions;
+        }
+        
+        function generateBeforeAfterQuestions() {
+            const questions = [];
+            
+            for (let i = 0; i < gameState.totalQuestions; i++) {
+                // Ensure we don't get before/after edge cases (0 or 100)
+                const number = getRandomNumber(2, 98);
+                const isBefore = Math.random() < 0.5;
+                
+                const correctAnswer = isBefore ? number - 1 : number + 1;
+                
+                // Generate 3 incorrect options that are close to the number
+                const otherOptions = [];
+                while (otherOptions.length < 3) {
+                    let wrongAnswer;
+                    if (isBefore) {
+                        wrongAnswer = number - getRandomNumber(2, 5);
+                        if (wrongAnswer < 1) wrongAnswer = number + getRandomNumber(2, 5);
+                    } else {
+                        wrongAnswer = number + getRandomNumber(2, 5);
+                        if (wrongAnswer > 99) wrongAnswer = number - getRandomNumber(2, 5);
+                    }
+                    
+                    if (wrongAnswer !== correctAnswer && !otherOptions.includes(wrongAnswer)) {
+                        otherOptions.push(wrongAnswer);
+                    }
+                }
+                
+                const options = shuffle([correctAnswer, ...otherOptions]);
+                
+                questions.push({
+                    number,
+                    type: isBefore ? 'before' : 'after',
+                    correctAnswer,
+                    options
+                });
+            }
+            
+            return questions;
+        }
+        
+        function generateOrderNumbersQuestions() {
+            const questions = [];
+            
+            for (let i = 0; i < gameState.totalQuestions; i++) {
+                const numbers = getRandomNumbers(1, 99, 5);
+                const isAscending = Math.random() < 0.5;
+                
+                const correctAnswer = [...numbers];
+                if (isAscending) {
+                    correctAnswer.sort((a, b) => a - b);
+                } else {
+                    correctAnswer.sort((a, b) => b - a);
+                }
+                
+                questions.push({
+                    numbers: shuffle([...numbers]),
+                    isAscending,
+                    correctAnswer
+                });
+            }
+            
+            return questions;
+        }
+        
+        function generatePlaceValueQuestions() {
+            const questions = [];
+            
+            for (let i = 0; i < gameState.totalQuestions; i++) {
+                const number = getRandomNumber(10, 99);
+                const tens = Math.floor(number / 10);
+                const ones = number % 10;
+                
+                // Generate place value options
+                const tensOptions = shuffle([tens, getRandomNumber(1, 9), getRandomNumber(1, 9)]);
+                const onesOptions = shuffle([ones, getRandomNumber(0, 9), getRandomNumber(0, 9)]);
+                
+                questions.push({
+                    number,
+                    tensPlace: tens,
+                    onesPlace: ones,
+                    tensOptions: [...new Set(tensOptions)].slice(0, 3),
+                    onesOptions: [...new Set(onesOptions)].slice(0, 3)
+                });
+            }
+            
+            return questions;
+        }
+        
+        // Game Initialization
+        function initNumberNameGame() {
+            gameTitle.textContent = 'Number Names';
+            gameDescription.textContent = 'Match the number with its correct name.';
+            
+            // Generate questions
+            gameState.questions = generateNumberNameQuestions();
+            
+            // Reset state
+            gameState.questionIndex = 0;
+            gameState.score = 0;
+            
+            // Show first question
+            showNumberNameQuestion();
+        }
+        
+        function initCompareNumbersGame() {
+            gameTitle.textContent = 'Compare Numbers';
+            gameDescription.textContent = 'Choose the correct symbol to compare the numbers.';
+            
+            // Generate questions
+            gameState.questions = generateCompareNumbersQuestions();
+            
+            // Reset state
+            gameState.questionIndex = 0;
+            gameState.score = 0;
+            
+            // Show first question
+            showCompareNumbersQuestion();
+        }
+        
+        function initBeforeAfterGame() {
+            gameTitle.textContent = 'Before & After';
+            gameDescription.textContent = 'Find the number that comes before or after the given number.';
+            
+            // Generate questions
+            gameState.questions = generateBeforeAfterQuestions();
+            
+            // Reset state
+            gameState.questionIndex = 0;
+            gameState.score = 0;
+            
+            // Show first question
+            showBeforeAfterQuestion();
+        }
+        
+        function initOrderNumbersGame() {
+            gameTitle.textContent = 'Number Order';
+            gameDescription.textContent = 'Arrange the numbers in the correct order.';
+            
+            // Generate questions
+            gameState.questions = generateOrderNumbersQuestions();
+            
+            // Reset state
+            gameState.questionIndex = 0;
+            gameState.score = 0;
+            
+            // Show first question
+            showOrderNumbersQuestion();
+        }
+        
+        function initPlaceValueGame() {
+            gameTitle.textContent = 'Place Value';
+            gameDescription.textContent = 'Identify the tens and ones place in two-digit numbers.';
+            
+            // Generate questions
+            gameState.questions = generatePlaceValueQuestions();
+            
+            // Reset state
+            gameState.questionIndex = 0;
+            gameState.score = 0;
+            
+            // Show first question
+            showPlaceValueQuestion();
+        }
+        
+        // Game Question Renderers
+        function showNumberNameQuestion() {
+            hideAllGames();
+            numberNameGame.classList.remove('hidden');
+            
+            const question = gameState.questions[gameState.questionIndex];
+            currentNumber.textContent = question.number;
+            currentNumber.classList.add('animate-number');
+            
+            // Clear previous options
+            nameOptions.innerHTML = '';
+            
+            // Add options
+            question.options.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => {
+                    document.querySelectorAll('#name-options .option').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    optionElement.classList.add('selected');
+                    gameState.currentAnswer = option;
+                });
+                nameOptions.appendChild(optionElement);
+            });
+            
+            // Reset UI state
+            feedbackElement.className = 'feedback';
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            
+            // Update question counter
+            questionCounter.textContent = `${gameState.questionIndex + 1}/${gameState.totalQuestions}`;
+            updateProgressBar();
+            
+            setTimeout(() => {
+                currentNumber.classList.remove('animate-number');
+            }, 500);
+        }
+        
+        function showCompareNumbersQuestion() {
+            hideAllGames();
+            compareNumbersGame.classList.remove('hidden');
+            
+            const question = gameState.questions[gameState.questionIndex];
+            number1.textContent = question.num1;
+            number2.textContent = question.num2;
+            
+            // Reset options
+            document.querySelectorAll('#comparison-options .option').forEach(option => {
+                option.classList.remove('selected');
+                option.addEventListener('click', () => {
+                    document.querySelectorAll('#comparison-options .option').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    option.classList.add('selected');
+                    gameState.currentAnswer = option.dataset.value;
+                });
+            });
+            
+            // Reset UI state
+            feedbackElement.className = 'feedback';
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            
+            // Update question counter
+            questionCounter.textContent = `${gameState.questionIndex + 1}/${gameState.totalQuestions}`;
+            updateProgressBar();
+        }
+        
+        function showBeforeAfterQuestion() {
+            hideAllGames();
+            beforeAfterGame.classList.remove('hidden');
+            
+            const question = gameState.questions[gameState.questionIndex];
+            beforeAfterQuestion.textContent = `What number comes right ${question.type} ${question.number}?`;
+            
+            // Clear previous options
+            beforeAfterOptions.innerHTML = '';
+            
+            // Add options
+            question.options.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => {
+                    document.querySelectorAll('#before-after-options .option').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    optionElement.classList.add('selected');
+                    gameState.currentAnswer = option;
+                });
+                beforeAfterOptions.appendChild(optionElement);
+            });
+            
+            // Reset UI state
+            feedbackElement.className = 'feedback';
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            
+            // Update question counter
+            questionCounter.textContent = `${gameState.questionIndex + 1}/${gameState.totalQuestions}`;
+            updateProgressBar();
+        }
+        
+        function showOrderNumbersQuestion() {
+            hideAllGames();
+            orderNumbersGame.classList.remove('hidden');
+            
+            const question = gameState.questions[gameState.questionIndex];
+            orderQuestion.textContent = `Arrange these numbers in ${question.isAscending ? 'ascending (smallest to largest)' : 'descending (largest to smallest)'} order:`;
+            
+            // Clear previous options
+            numbersToOrder.innerHTML = '';
+            orderDropZone.innerHTML = '';
+            
+            // Add number items
+            question.numbers.forEach(number => {
+                const numberElement = document.createElement('div');
+                numberElement.className = 'order-item';
+                numberElement.textContent = number;
+                numberElement.draggable = true;
+                
+                // Drag events
+                numberElement.addEventListener('dragstart', () => {
+                    setTimeout(() => numberElement.classList.add('hidden'), 0);
+                    gameState.draggedItem = numberElement;
+                });
+                
+                numberElement.addEventListener('dragend', () => {
+                    numberElement.classList.remove('hidden');
+                });
+                
+                // Click to move
+                numberElement.addEventListener('click', () => {
+                    if (numberElement.parentNode === numbersToOrder) {
+                        orderDropZone.appendChild(numberElement);
+                    } else {
+                        numbersToOrder.appendChild(numberElement);
+                    }
+                });
+                
+                numbersToOrder.appendChild(numberElement);
+            });
+            
+            // Drop zone events
+            orderDropZone.addEventListener('dragover', e => {
+                e.preventDefault();
+                orderDropZone.classList.add('active');
+            });
+            
+            orderDropZone.addEventListener('dragleave', () => {
+                orderDropZone.classList.remove('active');
+            });
+            
+            orderDropZone.addEventListener('drop', e => {
+                e.preventDefault();
+                orderDropZone.classList.remove('active');
+                
+                if (gameState.draggedItem) {
+                    orderDropZone.appendChild(gameState.draggedItem);
+                    gameState.draggedItem = null;
+                }
+            });
+            
+            // Reset UI state
+            feedbackElement.className = 'feedback';
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            
+            // Update question counter
+            questionCounter.textContent = `${gameState.questionIndex + 1}/${gameState.totalQuestions}`;
+            updateProgressBar();
+        }
+        
+        function showPlaceValueQuestion() {
+            hideAllGames();
+            placeValueGame.classList.remove('hidden');
+            
+            const question = gameState.questions[gameState.questionIndex];
+            placeValueNumber.textContent = question.number;
+            placeValueNumber.classList.add('animate-number');
+            
+            // Clear previous options
+            tensPlaceOptions.innerHTML = '';
+            onesPlaceOptions.innerHTML = '';
+            
+            // Add tens place options
+            question.tensOptions.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => {
+                    document.querySelectorAll('#tens-place-options .option').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    optionElement.classList.add('selected');
+                    gameState.currentAnswer = {
+                        ...gameState.currentAnswer,
+                        tens: option
+                    };
+                });
+                tensPlaceOptions.appendChild(optionElement);
+            });
+            
+            // Add ones place options
+            question.onesOptions.forEach(option => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => {
+                    document.querySelectorAll('#ones-place-options .option').forEach(el => {
+                        el.classList.remove('selected');
+                    });
+                    optionElement.classList.add('selected');
+                    gameState.currentAnswer = {
+                        ...gameState.currentAnswer,
+                        ones: option
+                    };
+                });
+                onesPlaceOptions.appendChild(optionElement);
+            });
+            
+            // Reset UI state
+            feedbackElement.className = 'feedback';
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            gameState.currentAnswer = {};
+            
+            // Update question counter
+            questionCounter.textContent = `${gameState.questionIndex + 1}/${gameState.totalQuestions}`;
+            updateProgressBar();
+            
+            setTimeout(() => {
+                placeValueNumber.classList.remove('animate-number');
+            }, 500);
+        }
+        
+        // Answer Checking
+        function checkNumberNameAnswer() {
+            const question = gameState.questions[gameState.questionIndex];
+            const isCorrect = gameState.currentAnswer === question.correctAnswer;
+            
+            if (isCorrect) {
+                gameState.score++;
+                scoreElement.textContent = gameState.score;
+            }
+            
+            // Highlight correct and incorrect options
+            document.querySelectorAll('#name-options .option').forEach(option => {
+                if (option.textContent === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (option.textContent === gameState.currentAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            showFeedback(isCorrect);
+        }
+        
+        function checkCompareNumbersAnswer() {
+            const question = gameState.questions[gameState.questionIndex];
+            const isCorrect = gameState.currentAnswer === question.correctAnswer;
+            
+            if (isCorrect) {
+                gameState.score++;
+                scoreElement.textContent = gameState.score;
+            }
+            
+            // Highlight correct and incorrect options
+            document.querySelectorAll('#comparison-options .option').forEach(option => {
+                if (option.dataset.value === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (option.dataset.value === gameState.currentAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            showFeedback(isCorrect);
+        }
+        
+        function checkBeforeAfterAnswer() {
+            const question = gameState.questions[gameState.questionIndex];
+            const isCorrect = gameState.currentAnswer === question.correctAnswer;
+            
+            if (isCorrect) {
+                gameState.score++;
+                scoreElement.textContent = gameState.score;
+            }
+            
+            // Highlight correct and incorrect options
+            document.querySelectorAll('#before-after-options .option').forEach(option => {
+                if (parseInt(option.textContent) === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (parseInt(option.textContent) === gameState.currentAnswer && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            showFeedback(isCorrect);
+        }
+        
+        function checkOrderNumbersAnswer() {
+            const question = gameState.questions[gameState.questionIndex];
+            
+            // Get the current order from the drop zone
+            const currentOrder = Array.from(orderDropZone.children).map(item => parseInt(item.textContent));
+            
+            // Check if all numbers are in the drop zone
+            if (currentOrder.length !== question.numbers.length) {
+                showFeedback(false, 'Please arrange all numbers!');
+                return;
+            }
+            
+            // Compare with correct answer
+            const correctOrderStr = question.correctAnswer.join(',');
+            const currentOrderStr = currentOrder.join(',');
+            const isCorrect = correctOrderStr === currentOrderStr;
+            
+            if (isCorrect) {
+                gameState.score++;
+                scoreElement.textContent = gameState.score;
+            }
+            
+            // Show correct order if wrong
+            if (!isCorrect) {
+                orderDropZone.innerHTML = '';
+                question.correctAnswer.forEach(number => {
+                    const correctItem = document.createElement('div');
+                    correctItem.className = 'order-item correct';
+                    correctItem.textContent = number;
+                    orderDropZone.appendChild(correctItem);
+                });
+            } else {
+                // Highlight all as correct
+                Array.from(orderDropZone.children).forEach(item => {
+                    item.classList.add('correct');
+                });
+            }
+            
+            showFeedback(isCorrect);
+        }
+        
+        function checkPlaceValueAnswer() {
+            const question = gameState.questions[gameState.questionIndex];
+            
+            if (!gameState.currentAnswer.tens || !gameState.currentAnswer.ones) {
+                showFeedback(false, 'Please select both place values!');
+                return;
+            }
+            
+            const isTensCorrect = gameState.currentAnswer.tens === question.tensPlace;
+            const isOnesCorrect = gameState.currentAnswer.ones === question.onesPlace;
+            const isCorrect = isTensCorrect && isOnesCorrect;
+            
+            if (isCorrect) {
+                gameState.score++;
+                scoreElement.textContent = gameState.score;
+            }
+            
+            // Highlight correct and incorrect options
+            document.querySelectorAll('#tens-place-options .option').forEach(option => {
+                if (parseInt(option.textContent) === question.tensPlace) {
+                    option.classList.add('correct');
+                } else if (parseInt(option.textContent) === gameState.currentAnswer.tens && !isTensCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            document.querySelectorAll('#ones-place-options .option').forEach(option => {
+                if (parseInt(option.textContent) === question.onesPlace) {
+                    option.classList.add('correct');
+                } else if (parseInt(option.textContent) === gameState.currentAnswer.ones && !isOnesCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            showFeedback(isCorrect);
+        }
+        
+        // Next Question Handler
+        function nextQuestion() {
+            gameState.questionIndex++;
+            
+            if (gameState.questionIndex >= gameState.totalQuestions) {
+                showResults();
+                return;
+            }
+            
+            switch(gameState.currentGame) {
+                case 'number-name':
+                    showNumberNameQuestion();
+                    break;
+                case 'compare-numbers':
+                    showCompareNumbersQuestion();
+                    break;
+                case 'before-after':
+                    showBeforeAfterQuestion();
+                    break;
+                case 'order-numbers':
+                    showOrderNumbersQuestion();
+                    break;
+                case 'place-value':
+                    showPlaceValueQuestion();
+                    break;
+            }
+        }
+        
+        // Show Results
+        function showResults() {
+            stopTimer();
+            showScreen(resultsScreen);
+            
+            resultScore.textContent = `${gameState.score}/${gameState.totalQuestions}`;
+            
+            // Set message based on score percentage
+            const percentage = (gameState.score / gameState.totalQuestions) * 100;
+            let message;
+            
+            if (percentage >= 90) {
+                message = 'Amazing! You\'re a math genius! 🌟';
+                createConfetti();
+            } else if (percentage >= 70) {
+                message = 'Great job! You\'re getting really good at this! 🎉';
+                createConfetti();
+            } else if (percentage >= 50) {
+                message = 'Good effort! Keep practicing to improve! 👍';
+            } else {
+                message = 'Keep practicing! You\'ll get better with time! 💪';
+            }
+            
+            resultMessage.textContent = message;
+        }
+        
+        // Event Listeners
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('student-name');
+            const classInput = document.getElementById('student-class');
+            
+            gameState.studentName = nameInput.value.trim();
+            gameState.studentClass = classInput.value.trim();
+            
+            if (gameState.studentName && gameState.studentClass) {
+                playerInfo.textContent = `Player: ${gameState.studentName} | Class: ${gameState.studentClass}`;
+                showScreen(gameMenuScreen);
+            }
+        });
+        
+        gameCards.forEach(card => {
+            card.addEventListener('click', () => {
+                gameState.currentGame = card.dataset.game;
+                showScreen(gameScreen);
+                
+                // Initialize the selected game
+                switch(gameState.currentGame) {
+                    case 'number-name':
+                        initNumberNameGame();
+                        break;
+                    case 'compare-numbers':
+                        initCompareNumbersGame();
+                        break;
+                    case 'before-after':
+                        initBeforeAfterGame();
+                        break;
+                    case 'order-numbers':
+                        initOrderNumbersGame();
+                        break;
+                    case 'place-value':
+                        initPlaceValueGame();
+                        break;
+                }
+                
+                startTimer();
+            });
+        });
+        
+        checkBtn.addEventListener('click', () => {
+            if (!gameState.currentAnswer && gameState.currentGame !== 'order-numbers') {
+                showFeedback(false, 'Please select an answer!');
+                return;
+            }
+            
+            switch(gameState.currentGame) {
+                case 'number-name':
+                    checkNumberNameAnswer();
+                    break;
+                case 'compare-numbers':
+                    checkCompareNumbersAnswer();
+                    break;
+                case 'before-after':
+                    checkBeforeAfterAnswer();
+                    break;
+                case 'order-numbers':
+                    checkOrderNumbersAnswer();
+                    break;
+                case 'place-value':
+                    checkPlaceValueAnswer();
+                    break;
+            }
+        });
+        
+        nextBtn.addEventListener('click', nextQuestion);
+        
+        backToMenuBtn.addEventListener('click', () => {
+            stopTimer();
+            showScreen(gameMenuScreen);
+        });
+        
+        playAgainBtn.addEventListener('click', () => {
+            showScreen(gameScreen);
+            
+            // Reinitialize the same game
+            switch(gameState.currentGame) {
+                case 'number-name':
+                    initNumberNameGame();
+                    break;
+                case 'compare-numbers':
+                    initCompareNumbersGame();
+                    break;
+                case 'before-after':
+                    initBeforeAfterGame();
+                    break;
+                case 'order-numbers':
+                    initOrderNumbersGame();
+                    break;
+                case 'place-value':
+                    initPlaceValueGame();
+                    break;
+            }
+            
+            startTimer();
+        });
+        
+        menuBtn.addEventListener('click', () => {
+            showScreen(gameMenuScreen);
+        });
+    </script>
+</body>
+</html>
