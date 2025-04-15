@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Math Numbers Adventure</title>
     <style>
         :root {
@@ -465,6 +465,56 @@
             .score-container {
                 flex-direction: column;
                 gap: 10px;
+            }
+            
+            .place-value-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .option {
+                padding: 15px;
+                font-size: 1.1rem;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                width: 100%;
+                margin-bottom: 8px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .order-item {
+                padding: 12px;
+                font-size: 1.1rem;
+                min-width: 60px;
+                text-align: center;
+            }
+            
+            .drop-container {
+                min-height: 100px;
+            }
+        }
+        
+        /* Tablet optimization */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .game-menu {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .options-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .btn {
+                min-width: 120px;
             }
         }
 
@@ -1220,8 +1270,9 @@
             currentNumber.textContent = question.number;
             currentNumber.classList.add('animate-number');
             
-            // Clear previous options
+            // Clear previous options and reset state
             nameOptions.innerHTML = '';
+            gameState.currentAnswer = null;
             
             // Add options
             question.options.forEach(option => {
@@ -1262,7 +1313,7 @@
             
             // Reset options
             document.querySelectorAll('#comparison-options .option').forEach(option => {
-                option.classList.remove('selected');
+                option.className = 'option'; // Reset all classes
                 option.addEventListener('click', () => {
                     document.querySelectorAll('#comparison-options .option').forEach(el => {
                         el.classList.remove('selected');
@@ -1273,6 +1324,7 @@
             });
             
             // Reset UI state
+            gameState.currentAnswer = null;
             feedbackElement.className = 'feedback';
             checkBtn.classList.remove('hidden');
             nextBtn.classList.add('hidden');
@@ -1291,6 +1343,7 @@
             
             // Clear previous options
             beforeAfterOptions.innerHTML = '';
+            gameState.currentAnswer = null;
             
             // Add options
             question.options.forEach(option => {
@@ -1327,6 +1380,7 @@
             // Clear previous options
             numbersToOrder.innerHTML = '';
             orderDropZone.innerHTML = '';
+            gameState.draggedItem = null;
             
             // Add number items
             question.numbers.forEach(number => {
@@ -1345,12 +1399,35 @@
                     numberElement.classList.remove('hidden');
                 });
                 
-                // Click to move
+                // Click to move (for mobile/touch devices)
                 numberElement.addEventListener('click', () => {
                     if (numberElement.parentNode === numbersToOrder) {
                         orderDropZone.appendChild(numberElement);
                     } else {
                         numbersToOrder.appendChild(numberElement);
+                    }
+                });
+                
+                // Touch events for mobile drag and drop
+                numberElement.addEventListener('touchstart', (e) => {
+                    gameState.draggedItem = numberElement;
+                    numberElement.classList.add('selected');
+                    e.preventDefault(); // Prevent scrolling on touch
+                }, { passive: false });
+                
+                numberElement.addEventListener('touchend', (e) => {
+                    if (gameState.draggedItem) {
+                        const touch = e.changedTouches[0];
+                        const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+                        
+                        if (dropTarget === orderDropZone || orderDropZone.contains(dropTarget)) {
+                            orderDropZone.appendChild(numberElement);
+                        } else if (dropTarget === numbersToOrder || numbersToOrder.contains(dropTarget)) {
+                            numbersToOrder.appendChild(numberElement);
+                        }
+                        
+                        numberElement.classList.remove('selected');
+                        gameState.draggedItem = null;
                     }
                 });
                 
@@ -1399,6 +1476,9 @@
             tensPlaceOptions.innerHTML = '';
             onesPlaceOptions.innerHTML = '';
             
+            // Reset answer state
+            gameState.currentAnswer = {};
+            
             // Add tens place options
             question.tensOptions.forEach(option => {
                 const optionElement = document.createElement('div');
@@ -1439,7 +1519,6 @@
             feedbackElement.className = 'feedback';
             checkBtn.classList.remove('hidden');
             nextBtn.classList.add('hidden');
-            gameState.currentAnswer = {};
             
             // Update question counter
             questionCounter.textContent = `${gameState.questionIndex + 1}/${gameState.totalQuestions}`;
