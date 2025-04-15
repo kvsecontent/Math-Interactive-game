@@ -1311,16 +1311,26 @@
             number1.textContent = question.num1;
             number2.textContent = question.num2;
             
-            // Reset options
-            document.querySelectorAll('#comparison-options .option').forEach(option => {
-                option.className = 'option'; // Reset all classes
+            // Completely recreate the comparison options to ensure clean state
+            const comparisonOptionsContainer = document.getElementById('comparison-options');
+            comparisonOptionsContainer.innerHTML = '';
+            
+            // Create fresh options with no previous classes
+            ['<', '=', '>'].forEach(symbol => {
+                const option = document.createElement('div');
+                option.className = 'option';
+                option.dataset.value = symbol;
+                option.textContent = symbol;
+                
                 option.addEventListener('click', () => {
                     document.querySelectorAll('#comparison-options .option').forEach(el => {
                         el.classList.remove('selected');
                     });
                     option.classList.add('selected');
-                    gameState.currentAnswer = option.dataset.value;
+                    gameState.currentAnswer = symbol;
                 });
+                
+                comparisonOptionsContainer.appendChild(option);
             });
             
             // Reset UI state
